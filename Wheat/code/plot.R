@@ -26,8 +26,8 @@ Trials <- tibble(Trials = c("2013-14_Moderate Drought", "2013-14_Optimal Bed", "
         ungroup
 
 
-final_results <- read_csv("result_full_data/Wheat_OF2013_final_results_20241009.csv", show_col_types = F)
-Cairo::CairoPDF("plot/OF2013_Prediction_Accuracy_20240923.pdf", width = 8, height = 6)
+final_results <- read_csv("results/Wheat_OF2013_final_results.csv")
+
 p1=final_results %>% 
     filter(
         Method %in% c("GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP", "FSBLUP_CV1")
@@ -57,25 +57,41 @@ p1=final_results %>%
         strip.text = element_text(face = "bold", size = 10, family = "Arial")) +
     #guides(fill = guide_legend(ncol = 6)) +
     coord_cartesian(ylim = c(0, 0.65))
-dev.off()
 
 
-mix_band_of2013_result <- read_csv("results/Wheat_OF2013_G_P_COR_BLUE.csv")
-p2=mix_band_of2013_result %>%
-    mutate(
-        test_date = fct_relevel(test_date, "10-Jan", "17-Jan", "30-Jan", "07-Feb", "14-Feb", "19-Feb", "27-Feb", "11-Mar", "17-Mar"),
-        chpt = fct_relevel(chpt, "VEG", "HEAD", "GF")
-    ) %>% 
+
+mix_band_of2013_result <- read_csv("results/Wheat_OF2013_G_P_COR_BLUE.csv") %>%
+  mutate(
+    wavelength = str_extract(ph_data, "(?<=BLUE_)\\d+(?=nm)") %>% as.numeric,
+    test_date = case_when(
+      str_trim(str_sub(ph_data, -4, -1)) == "0110" ~ "10-Jan",
+      str_trim(str_sub(ph_data, -4, -1)) == "0117" ~ "17-Jan",
+      str_trim(str_sub(ph_data, -4, -1)) == "0130" ~ "30-Jan",
+      str_trim(str_sub(ph_data, -4, -1)) == "0207" ~ "07-Feb",
+      str_trim(str_sub(ph_data, -4, -1)) == "0214" ~ "14-Feb",
+      str_trim(str_sub(ph_data, -4, -1)) == "0219" ~ "19-Feb",
+      str_trim(str_sub(ph_data, -4, -1)) == "0227" ~ "27-Feb",
+      str_trim(str_sub(ph_data, -4, -1)) == "0311" ~ "11-Mar",
+      str_trim(str_sub(ph_data, -4, -1)) == "0317" ~ "17-Mar"
+    ),
+    test_date = fct_relevel(test_date, "10-Jan", "17-Jan", "30-Jan", "07-Feb",
+                            "14-Feb", "19-Feb", "27-Feb", "11-Mar", "17-Mar"
+                            ),
+    grow_stage = case_when(
+      test_date %in% c("10-Jan", "17-Jan", "30-Jan", "07-Feb", "14-Feb") ~ "VEG",
+      test_date %in% c("19-Feb", "27-Feb") ~ "HEAD",
+      test_date %in% c("11-Mar", "17-Mar") ~ "GF",
+    ),
+    grow_stage = fct_relevel(grow_stage, "VEG", "HEAD", "GF")
+  )
+p2=mix_band_of2013_result %>% 
     ggplot(aes(x = wavelength)) +
     geom_hline(yintercept = 0, linewidth = 0.25) +
     geom_line(aes(y = g_cor, color = "Genetic")) +
     geom_line(aes(y = p_cor, color = "Phenotypic")) +
-    #geom_ribbon(aes(ymin = g_cor_low, ymax = g_cor_high), alpha = 0.3) +
-    #facet_wrap(~test_date, ncol = 3)  +
-    facet_wrap(test_date~chpt, scales = "fixed", ncol = 4) + 
+    facet_wrap(test_date ~ grow_stage, scales = "fixed", ncol = 4) + 
     labs(x = "Wavelength", y = "Correlation", title = NULL) +  #
     scale_color_manual(values=c('Genetic' = 'red','Phenotypic' = 'black'), name = 'Correlation') +
-    #theme_minimal() +
     theme_bw() +
     theme(
         legend.position = c(0.75,0.09),   #c(0.94, 0.38)
@@ -91,24 +107,18 @@ p2=mix_band_of2013_result %>%
         title = element_text(size = 12, face = "bold", family = "Arial"),
         strip.background = element_rect(fill = "lightgrey"),
         strip.text = element_text(face = "bold", size = 10, family = "Arial"))
-dev.off()
 
 
 
-
-
-calTime <- read_csv("result_full_data/Wheat_OF2013_calTime_20240923.csv", show_col_types = F)
-p3=calTime %>% 
-    mutate(
-        method = fct_relevel(method, "GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP")
-    ) %>%
-    filter(method %in% c("GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP")) %>% 
+calTime <- read_csv("results/Wheat_OF2013_calTime.csv", show_col_types = F) %>% 
+  mutate(
+    method = fct_relevel(method, "GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP")
+  )
+p3=calTime %>%
     ggplot(aes(x = method)) +
     geom_col(aes(y = log_time, fill = method), position = "identity", color = "black") + 
-    #geom_boxplot(aes(y = log_time, fill = method), position = "identity") +
     scale_fill_npg(alpha = 0.85) +
-    labs(x = "", y = "Calculating Time(Log10, S)") +  #expression("Calculating Time ("*Log["10"]*", s)")
-    #theme_minimal() +
+    labs(x = "", y = "Calculating Time(Log10, S)") +
     theme_bw() + 
     theme(
         legend.position = "none",
@@ -121,7 +131,6 @@ p3=calTime %>%
         title = element_text(size = 12, face = "bold", family = "Arial"),
         strip.background = element_rect(fill = alpha("grey80", 0.85)),
         strip.text = element_text(face = "bold", size = 10, family = "Arial"))
-        #+coord_cartesian(ylim = c(0, 7))
 
 
 p4=final_results %>% 
@@ -150,7 +159,7 @@ p4=final_results %>%
         title = element_text(size = 12, face = "bold", family = "Arial"),
         strip.background = element_rect(fill = alpha("grey80", 0.85)),
         strip.text = element_text(face = "bold", size = 10, family = "Arial"))
-dev.off()
+
 
 
 
@@ -161,7 +170,7 @@ design = "AAAABBBB
           CCCCDDDD
           CCCCDDDD"
 
-CairoPDF("plot/OF2013_figures_20241009.pdf", width = 8, height = 9)
+CairoPDF("OF2013_figures.pdf", width = 8, height = 9)
 wrap_plots(p1, p2, p3, p4, design = design) +
     plot_annotation(tag_levels = "A") +
     plot_layout(guides = "auto") &
@@ -178,9 +187,9 @@ dev.off()
 
 ## all trials
 
-univariate_acc_all <- read_csv("result_full_data/final_results_all_trials_20241009..csv")
+univariate_acc_all <- read_csv("results/Wheat_final_results_20_trials.csv")
 
-Cairo::CairoPDF("plot/Prediction_Accuracy_20241009.pdf", width = 12, height = 8)
+Cairo::CairoPDF("Prediction_Accuracy_20trials.pdf", width = 12, height = 8)
 univariate_acc_all %>% 
     mutate(
         Method = fct_relevel(Method, "ABLUP", "GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H","GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP")

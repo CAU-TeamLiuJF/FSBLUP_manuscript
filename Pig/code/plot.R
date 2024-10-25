@@ -2,17 +2,12 @@ setwd("/public/home/liujf/workspace/xueyh/TempWork/h_matrix_pig/")
 library(tidyverse)
 library(ggsci)
 library(showtext)
-font_add("Arial", "/public/home/liujf/workspace/xueyh/font/arial.ttf")
+font_add("Arial", "arial.ttf")
 showtext::showtext_auto()
 library(Cairo)
 library(patchwork)
 
-
-traits <- c("age", "bf", "czs")
-
-
-final_results <- read_csv("results/Prediction_Accuracy_20240918.csv", show_col_types = F) %>% 
-    filter(!Method %in% "FSBLUP") %>%
+final_results <- read_csv("results/Prediction_Accuracy.csv", show_col_types = F) %>%
     group_by(trait, Method) %>% 
     summarise(
         pearson_sd = sd(pearson_mean, na.rm = TRUE),
@@ -21,7 +16,6 @@ final_results <- read_csv("results/Prediction_Accuracy_20240918.csv", show_col_t
         bias_mean = mean(bias_mean, na.rm = TRUE)
     ) %>% 
     ungroup() %>% 
-    bind_rows(ssgoblup_results_r) %>% 
     mutate(
         Method = fct_relevel(Method, "ABLUP", "GBLUP", "BayesLasso", "GOBLUP", "FSBLUP")
     )
@@ -52,7 +46,10 @@ p1=final_results %>%
 
 
 ## cal time
-times_result <- read_csv(times_result, "results/times_20240918.csv")
+times_result <- read_csv("results/times.csv") %>%  
+    mutate(
+        method = fct_relevel(method, "ABLUP", "GBLUP", "BayesLasso", "GOBLUP", "FSBLUP")
+    )
 
 p2=times_result %>% 
     ggplot(aes(x = method, y = log_time, fill = method, group = method)) +
@@ -76,7 +73,7 @@ p2=times_result %>%
 dev.off()
 
 
-Cairo::CairoPDF("plot/Prediction_Accuracy_20241009.pdf", width = 12, height = 8)
+Cairo::CairoPDF("Prediction_Accuracy.pdf", width = 12, height = 8)
 p1/p2 +
     plot_layout(guides = 'collect', axis_title = "collect") & #& theme(plot.margin = margin(0.1, 0.1, 0, 0.1, unit = "cm")) 
     theme(

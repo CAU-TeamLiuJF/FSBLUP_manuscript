@@ -458,8 +458,8 @@ for (cv_s in seq_len(samnum)) {
                     cv_seed = cv_s,
                     cvnum = j,
                     Method = 'FSBLUP',
-                    g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = res_k$u[nas]),Knn,sKnn,method = 'MCMCglmm', normalize = T)[['g_cor']],
-                    bias = lm(pheno_all$BLUE[nas] ~ res_k$u[nas])$coefficients[2]
+                    g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = res_k),Knn,sKnn,method = 'MCMCglmm', normalize = T)[['g_cor']],
+                    bias = lm(pheno_all$BLUE[nas] ~ res_k)$coefficients[2]
                 )
             )
         }

@@ -1,6 +1,6 @@
 # Benchmarking analyses using pig data 
 
-raw data are available from the corresponding authors upon reasonable request.
+The raw sequencing for pig datasets has been deposited in NGDC/GSA under accession code PRJCA032943 (https://ngdc.cncb.ac.cn/gsa). .
  
 All matrices and phenotypes that replicate the results in the manuscript are stored in `Pig\data\data.rdata`.
 

@@ -10,13 +10,13 @@ library(patchwork)
 
 final_result <- read_csv("results/simulate_final_result.csv") %>% 
     mutate(
-        Method = fct_relevel(Method, "ABLUP", "GBLUP", "TBLUP", "GBLUP+T", "GBLUP+T+A", 
+        method = fct_relevel(method, "ABLUP", "GBLUP", "TBLUP", "GBLUP+T", "GBLUP+T+A", 
                              "ssGBLUP_AG", "ssGBLUP_AT", "ssGBLUP_GT", "GOBLUP", "FSBLUP")
     )
 
 p1 = final_result %>%
     filter(Trait == "T1") %>%
-    ggplot(aes(x = Method, y = pearson_mean, fill = Method, group = Method)) +
+    ggplot(aes(x = method, y = pearson_mean, fill = method, group = method)) +
     geom_errorbar(aes(ymin = pearson_mean, ymax = pearson_mean + pearson_sd), width = 0.15, position = position_dodge(0.1)) +
     geom_col(position = "identity", color = "black") +
     facet_grid(Trait ~ Scenario, scales = "free_x", space = "free") +
@@ -38,7 +38,7 @@ p1 = final_result %>%
     coord_cartesian(ylim = c(0.1, 0.61))
 p2 = final_result %>%
     filter(Trait == "T2") %>%
-    ggplot(aes(x = Method, y = pearson_mean, fill = Method, group = Method)) +
+    ggplot(aes(x = method, y = pearson_mean, fill = method, group = method)) +
     geom_errorbar(aes(ymin = pearson_mean, ymax = pearson_mean + pearson_sd), width = 0.15, position = position_dodge(0.1)) +
     geom_col(position = "identity", color = "black") +
     facet_grid(Trait ~ Scenario, scales = "free_x", space = "free") +

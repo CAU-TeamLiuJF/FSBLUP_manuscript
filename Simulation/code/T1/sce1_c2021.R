@@ -104,7 +104,7 @@ for (s in 1) {
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "GOBLUP_m2",
+                method = "GOBLUP_m2",
                 pearson = cor(EBV1sum[1911:2110], tbv[1911:2110], use = "pairwise.complete.obs"),
                 bias = lm(tbv[1911:2110] ~ EBV1sum[1911:2110])$coefficients[2]
             )
@@ -121,7 +121,7 @@ for (s in 1) {
 }
 
 
-## Method 3
+## method 3
 
 result <- data.frame()
 for (s in 1) {
@@ -242,7 +242,7 @@ for (s in 1) {
             data.frame(
                 Scenario = s,
                 Rep = r,
-                Method = "GOBLUP_m3",
+                method = "GOBLUP_m3",
                 pearson = cor(EBV1sum[1911:2110], tbv[1911:2110], use = "pairwise.complete.obs"),
                 bias = lm(tbv[1911:2110] ~ EBV1sum[1911:2110])$coefficients[2]
             )

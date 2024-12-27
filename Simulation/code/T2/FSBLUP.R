@@ -43,7 +43,7 @@ for (s in 1:3) {
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "FSBLUP",
+                method = "FSBLUP",
                 pearson = cor(pheno_all$tbv[nas], res_k, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all$tbv[nas] ~ res_k)$coefficients[2]
             )

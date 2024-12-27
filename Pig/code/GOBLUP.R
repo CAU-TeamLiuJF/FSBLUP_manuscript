@@ -115,7 +115,7 @@ for (tr in 1:4) {
                     trait = colnames(pheno)[tr + 1],
                     cv_seed = i,
                     cvnum = j,
-                    Method = "GOBLUP",
+                    method = "GOBLUP",
                     pearson = cor(pheno_all$y[nas], pred_lme4qtl_gt, use = 'pairwise.complete.obs'),
                     bias = lm(pheno_all$y[nas] ~ pred_lme4qtl_gt)$coefficients[2]
                 )

@@ -101,42 +101,42 @@ for (s in 1) {
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "A",
+                method = "A",
                 pearson = cor(pheno_all$tbv[nas], res_a, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all$tbv[nas] ~ res_a)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "G",
+                method = "G",
                 pearson = cor(pheno_all$tbv[nas], res_k, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all$tbv[nas] ~ res_k)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "T",
+                method = "T",
                 pearson = cor(pheno_all$tbv[nas], res_t, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all$tbv[nas] ~ res_t)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "G + T",
+                method = "G + T",
                 pearson = cor(pheno_all$tbv[nas], pred_lme4qtl_gt, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all$tbv[nas] ~ pred_lme4qtl_gt)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "G + T + A",
+                method = "G + T + A",
                 pearson = cor(pheno_all$tbv[nas], pred_lme4qtl_gta, use = 'pairwise.complete.obs'),
                 bias = lm(pheno_all$tbv[nas] ~ pred_lme4qtl_gta)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "BL",
+                method = "BL",
                 pearson = cor(pheno_all$tbv[nas], bglr_BLs, use = 'pairwise.complete.obs'),
                 bias = lm(pheno_all$tbv[nas] ~ bglr_BLs)$coefficients[2]
             )
@@ -212,28 +212,28 @@ for (s in 2) {
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "A",
+                method = "A",
                 pearson = cor(pheno_all$tbv[nas], res_a, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all$tbv[nas] ~ res_a)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "G",
+                method = "G",
                 pearson = cor(pheno_all$tbv[nas], res_k, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all$tbv[nas] ~ res_k)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "T",
+                method = "T",
                 pearson = cor(pheno_all_2$tbv[nas2], res_t, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all_2$tbv[nas2] ~ res_t)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "G + T",
+                method = "G + T",
                 pearson = cor(pheno_all_2$tbv[nas2], pred_lme4qtl_gt, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all_2$tbv[nas2] ~ pred_lme4qtl_gt)$coefficients[2]
             )
@@ -318,28 +318,28 @@ for (s in 3) {
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "A",
+                method = "A",
                 pearson = cor(pheno_all$tbv[nas], res_a, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all$tbv[nas] ~ res_a)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "G",
+                method = "G",
                 pearson = cor(pheno_all_3$tbv[nas3], res_k, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all_3$tbv[nas3] ~ res_k)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "T",
+                method = "T",
                 pearson = cor(pheno_all_2$tbv[nas2], res_t, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all_2$tbv[nas2] ~ res_t)$coefficients[2]
             ),
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "G + T",
+                method = "G + T",
                 pearson = cor(pheno_all_2$tbv[nas2], pred_lme4qtl_gt, use = "pairwise.complete.obs"),
                 bias = lm(pheno_all_2$tbv[nas2] ~ pred_lme4qtl_gt)$coefficients[2]
             )

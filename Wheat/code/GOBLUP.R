@@ -86,7 +86,7 @@ for (cv_s in seq_len(samnum)) {
             data.frame(
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "GOBLUP",
+                method = "GOBLUP",
                 g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = pred_lme4qtl_gt),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']],
                 bias = lm(pheno_all$BLUP[nas] ~ pred_lme4qtl_gt)$coefficients[2]
             )

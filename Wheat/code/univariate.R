@@ -74,7 +74,7 @@ for (cv_s in seq_len(samnum)) {
             data.frame(
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "GBLUP",
+                method = "GBLUP",
                 g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = res_k),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']],
                 bias = lm(pheno_all$BLUP[nas] ~ res_k)$coefficients[2]
             )
@@ -131,7 +131,7 @@ for (cv_s in seq_len(samnum)) {
             data.frame(
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "GBLUP_HTP",
+                method = "GBLUP_HTP",
                 g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = res_t),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']],
                 bias = lm(pheno_all$BLUP[nas] ~ res_t)$coefficients[2]
             )
@@ -196,7 +196,7 @@ for (cv_s in seq_len(samnum)) {
             data.frame(
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "G+HTP",
+                method = "G+HTP",
                 g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = pred_lme4qtl_gt),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']],
                 bias = lm(pheno_all$BLUP[nas] ~ pred_lme4qtl_gt)$coefficients[2]
             )
@@ -253,7 +253,7 @@ for (cv_s in seq_len(samnum)) {
             data.frame(
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "RKHS",
+                method = "RKHS",
                 pearson_blup = cor(pheno_all$BLUP[nas], res_RKHS, use = 'pairwise.complete.obs'),
                 g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = res_RKHS),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']],
                 bias = lm(pheno_all$BLUP[nas] ~ res_RKHS)$coefficients[2]
@@ -313,7 +313,7 @@ for (cv_s in seq_len(samnum)) {
             data.frame(
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "BL",
+                method = "BL",
                 pearson_blup = cor(pheno_all$BLUP[nas], bglr_BLs, use = 'pairwise.complete.obs'),
                 g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = bglr_BLs),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']]
             )
@@ -381,7 +381,7 @@ for (cv_s in seq_len(samnum)) {
             data.frame(
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "G+HTP+A",
+                method = "G+HTP+A",
                 g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = pred_lme4qtl_gta),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']],
                 bias = lm(pheno_all$BLUP[nas] ~ pred_lme4qtl_gta)$coefficients[2]
             )
@@ -457,7 +457,7 @@ for (cv_s in seq_len(samnum)) {
                 data.frame(
                     cv_seed = cv_s,
                     cvnum = j,
-                    Method = 'FSBLUP',
+                    method = 'FSBLUP',
                     g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = res_k),Knn,sKnn,method = 'MCMCglmm', normalize = T)[['g_cor']],
                     bias = lm(pheno_all$BLUE[nas] ~ res_k)$coefficients[2]
                 )

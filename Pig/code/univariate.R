@@ -66,7 +66,7 @@ for(tr in 1:4) {
                     trait = colnames(pheno)[tr + 1],
                     cv_seed = cv_s,
                     cvnum = j,
-                    Method = "GBLUP",
+                    method = "GBLUP",
                     pearson = cor(pheno_all$y[nas], res_k, use = 'pairwise.complete.obs'),
                     bias = lm(pheno_all$y[nas] ~ res_k)$coefficients[2]
                 )
@@ -134,7 +134,7 @@ for(tr in 1:4) {
                     trait = colnames(pheno)[tr + 1],
                     cv_seed = cv_s,
                     cvnum = j,
-                    Method = "ABLUP",
+                    method = "ABLUP",
                     pearson = cor(pheno_all$y[nas], res_k, use = 'pairwise.complete.obs'),
                     bias = lm(pheno_all$y[nas] ~ res_k)$coefficients[2]
                 )
@@ -206,7 +206,7 @@ for (cv_s in seq_len(samnum)) {
             data.frame(
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "G+HTP",
+                method = "G+HTP",
                 g_cor = estimate_gcor(data.frame(ID=pheno_all$GID[nas],obs = pheno_all$BLUP[nas],pred = pred_lme4qtl_gt),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']],
                 bias = lm(pheno_all$BLUP[nas] ~ pred_lme4qtl_gt)$coefficients[2]
             )
@@ -282,7 +282,7 @@ for(tr in 1:4) {
                     trait = colnames(pheno)[tr + 1],
                     cv_seed = cv_s,
                     cvnum = j,
-                    Method = "RKHS",
+                    method = "RKHS",
                     pearson = cor(pheno_all$y[nas], res_k, use = 'pairwise.complete.obs'),
                     bias = lm(pheno_all$y[nas] ~ res_k)$coefficients[2]
                 )
@@ -310,7 +310,7 @@ for(tr in 1:4) {
 
 
 
-## BL
+## BL  BayesianLasso  
 times <- data.frame() ## record time
 start_time <- Sys.time()
 load(paste0("/public/home/liujf/workspace/xueyh/TempWork/h_matrix_pig/data/data_adj.rdata"))
@@ -358,7 +358,7 @@ for (cv_s in seq_len(samnum)) {
                 trait = colnames(pheno)[tr + 1],
                 cv_seed = cv_s,
                 cvnum = j,
-                Method = "BL",
+                method = "BL",
                 pearson = cor(pheno_all$y[nas], bglr_BLs, use = 'pairwise.complete.obs'),
                 bias = lm(pheno_all$y[nas] ~ bglr_BLs)$coefficients[2]
                 #g_cor = estimate_gcor(data.frame(ID=pheno_all$ID[nas],obs = pheno_all$BLUP[nas],pred = bglr_BLs),Knn,sKnn,method = 'MCMCglmm',normalize = T)[['g_cor']]
@@ -435,7 +435,7 @@ for (Trait in Traits) {
                 results,
                 data.frame(
                     trait = Trait,
-                    Method = "FSBLUP",
+                    method = "FSBLUP",
                     cv_seed = cv_s,
                     cvnum = j,
                     pearson = cor(pheno_all$y[nas], res_k, use = "pairwise.complete.obs"),

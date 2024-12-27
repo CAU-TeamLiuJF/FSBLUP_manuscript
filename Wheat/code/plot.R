@@ -2,7 +2,7 @@ setwd("/public/home/liujf/workspace/xueyh/TempWork/h_matrix_wheat_mix")
 library(tidyverse)
 library(ggsci)
 library(showtext)
-font_add("Arial", "/public/home/liujf/workspace/xueyh/font/arial.ttf")
+font_add("Arial", "arial.ttf")
 showtext::showtext_auto()
 library(Cairo)
 library(patchwork)
@@ -26,16 +26,16 @@ Trials <- tibble(Trials = c("2013-14_Moderate Drought", "2013-14_Optimal Bed", "
         ungroup
 
 
-final_results <- read_csv("results/Wheat_OF2013_final_results.csv")
+final_results <- read_csv("../results/Wheat_OF2013_final_results.csv")
 
 p1=final_results %>% 
     filter(
-        Method %in% c("GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP", "FSBLUP_CV1")
+        method %in% c("GBLUP", "BayesianLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP", "FSBLUP_CV1")
     ) %>%
     mutate(
-        Method = fct_relevel(Method, "GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP", "FSBLUP_CV1")
+        method = fct_relevel(method, "GBLUP", "BayesianLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP", "FSBLUP_CV1")
     ) %>%
-    ggplot(aes(x = Method, y = g_cor_mean, fill = Method, group = Method)) +
+    ggplot(aes(x = method, y = g_cor_mean, fill = method, group = method)) +
     geom_errorbar(aes(ymin = g_cor_mean, ymax = g_cor_mean + g_cor_sd), width = 0.15, position = position_dodge(0.1)) +
     geom_col(position = "identity", color = "black") +
     #geom_text(aes(label = round(g_cor_mean, 3)), vjust = -0.5, size = 5) +
@@ -60,7 +60,7 @@ p1=final_results %>%
 
 
 
-mix_band_of2013_result <- read_csv("results/Wheat_OF2013_G_P_COR_BLUE.csv") %>%
+mix_band_of2013_result <- read_csv("../results/Wheat_OF2013_G_P_COR_BLUE.csv") %>%
   mutate(
     wavelength = str_extract(ph_data, "(?<=BLUE_)\\d+(?=nm)") %>% as.numeric,
     test_date = case_when(
@@ -110,9 +110,9 @@ p2=mix_band_of2013_result %>%
 
 
 
-calTime <- read_csv("results/Wheat_OF2013_calTime.csv", show_col_types = F) %>% 
+calTime <- read_csv("../results/Wheat_OF2013_calTime.csv", show_col_types = F) %>% 
   mutate(
-    method = fct_relevel(method, "GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP")
+    method = fct_relevel(method, "GBLUP", "BayesianLasso", "RKHS", "HBLUP", "GBLUP+H", "GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP")
   )
 p3=calTime %>%
     ggplot(aes(x = method)) +
@@ -135,10 +135,10 @@ p3=calTime %>%
 
 p4=final_results %>% 
     mutate(
-        Method = fct_relevel(Method, "FSBLUP_VEG", "FSBLUP_HEAD", "FSBLUP_GF", "FSBLUP")
+        method = fct_relevel(method, "FSBLUP_VEG", "FSBLUP_HEAD", "FSBLUP_GF", "FSBLUP")
     ) %>%
-    filter(Method %in% c("FSBLUP", "FSBLUP_VEG", "FSBLUP_HEAD", "FSBLUP_GF")) %>%
-    ggplot(aes(x = Method, y = g_cor_mean, fill = Method, group = Method)) +
+    filter(method %in% c("FSBLUP", "FSBLUP_VEG", "FSBLUP_HEAD", "FSBLUP_GF")) %>%
+    ggplot(aes(x = method, y = g_cor_mean, fill = method, group = method)) +
     geom_errorbar(aes(ymin = g_cor_mean, ymax = g_cor_mean + g_cor_sd), width = 0.15, position = position_dodge(0.1)) +
     geom_col(position = "identity", color = "black") +
     #geom_text(aes(label = round(g_cor_mean, 3)), vjust = -0.5, size = 5) +
@@ -170,7 +170,7 @@ design = "AAAABBBB
           CCCCDDDD
           CCCCDDDD"
 
-CairoPDF("OF2013_figures.pdf", width = 8, height = 9)
+CairoPDF("OF2013_figures.pdf", width = 8, height = 10)
 wrap_plots(p1, p2, p3, p4, design = design) +
     plot_annotation(tag_levels = "A") +
     plot_layout(guides = "auto") &
@@ -187,14 +187,14 @@ dev.off()
 
 ## all trials
 
-univariate_acc_all <- read_csv("results/Wheat_final_results_20_trials.csv")
+univariate_acc_all <- read_csv("../results/Wheat_final_results_20_trials.csv")
 
 Cairo::CairoPDF("Prediction_Accuracy_20trials.pdf", width = 12, height = 8)
 univariate_acc_all %>% 
     mutate(
-        Method = fct_relevel(Method, "ABLUP", "GBLUP", "BayesLasso", "RKHS", "HBLUP", "GBLUP+H","GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP")
+        method = fct_relevel(method, "ABLUP", "GBLUP", "BayesianLasso", "RKHS", "HBLUP", "GBLUP+H","GBLUP+H+A", "MegaLMM", "GOBLUP", "FSBLUP")
     ) %>% 
-    ggplot(aes(x = Method, y = g_cor_mean, fill = Method, group = Method)) +
+    ggplot(aes(x = method, y = g_cor_mean, fill = method, group = method)) +
     geom_errorbar(aes(ymin = g_cor_mean, ymax = g_cor_mean + g_cor_sd), width = 0.15, position = position_dodge(0.1)) +
     geom_col(position = "identity", color = "black") +
     #geom_text(aes(label = round(g_cor_mean, 3)), vjust = -0.5, size = 5) +

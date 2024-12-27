@@ -44,7 +44,7 @@ times <- data.frame() ##  record time
 #			data.frame(
 #                Scenario = s, 
 #                Rep = r,
-#                Method = "BB",
+#                method = "BB",
 #                pearson = cor(pheno_all$tbv[nas], bglr_BBs, use = 'pairwise.complete.obs'),
 #                bias = lm(pheno_all$tbv[nas] ~ bglr_BBs)$coefficients[2]
 #            )
@@ -103,7 +103,7 @@ for (s in 1) {
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "BL",
+                method = "BL",
                 pearson = cor(pheno_all$tbv[nas], bglr_BCs, use = 'pairwise.complete.obs'),
                 bias = lm(pheno_all$tbv[nas] ~ bglr_BCs)$coefficients[2]
             )

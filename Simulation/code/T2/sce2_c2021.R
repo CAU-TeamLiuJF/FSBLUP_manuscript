@@ -18,7 +18,7 @@ adj_pos <- function(x) {
     return(x)
 }
 
-# Methods 3
+# methods 3
 #result <- data.frame()
 #for (s in 2) {
 #    
@@ -160,7 +160,7 @@ adj_pos <- function(x) {
 #            data.frame(
 #                Scenario = s, 
 #                Rep = r,
-#                Method = "GOBLUP",
+#                method = "GOBLUP",
 #                pearson = cor(EBV1sum[1911:2110], tbv[1911:2110], use = "pairwise.complete.obs"),
 #                bias = lm(tbv[1911:2110] ~ EBV1sum[1911:2110])$coefficients[2]
 #            )
@@ -179,7 +179,7 @@ adj_pos <- function(x) {
 #write_csv(result, paste0(wd, "/result/goblup_scenario2.csv"))
 
 
-# Method 2
+# method 2
 result <- data.frame()
 for (s in 2) {
     
@@ -315,7 +315,7 @@ for (s in 2) {
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "GOBLUP",
+                method = "GOBLUP",
                 pearson = cor(EBV1sum[1911:2110], tbv[1911:2110], use = "pairwise.complete.obs"),
                 bias = lm(tbv[1911:2110] ~ EBV1sum[1911:2110])$coefficients[2]
             )

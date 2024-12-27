@@ -8,7 +8,7 @@ library(Cairo)
 library(patchwork)
 
 final_results <- read_csv("results/Prediction_Accuracy.csv", show_col_types = F) %>%
-    group_by(trait, Method) %>% 
+    group_by(trait, method) %>% 
     summarise(
         pearson_sd = sd(pearson_mean, na.rm = TRUE),
         pearson_mean = mean(pearson_mean, na.rm = TRUE),
@@ -17,12 +17,12 @@ final_results <- read_csv("results/Prediction_Accuracy.csv", show_col_types = F)
     ) %>% 
     ungroup() %>% 
     mutate(
-        Method = fct_relevel(Method, "ABLUP", "GBLUP", "BayesLasso", "GOBLUP", "FSBLUP")
+        method = fct_relevel(method, "ABLUP", "GBLUP", "BayesianLasso", "GOBLUP", "FSBLUP")
     )
 
 ##  histgram plot
 p1=final_results %>% 
-    ggplot(aes(x = Method, y = pearson_mean, fill = Method, group = Method)) +
+    ggplot(aes(x = method, y = pearson_mean, fill = method, group = method)) +
     geom_errorbar(aes(ymin = pearson_mean, ymax = pearson_mean + pearson_sd), width = 0.15, position = position_dodge(0.1)) +
     geom_col(position = "identity", color = "black") +
     facet_wrap(~ trait, scales = "fixed") +
@@ -48,7 +48,7 @@ p1=final_results %>%
 ## cal time
 times_result <- read_csv("results/times.csv") %>%  
     mutate(
-        method = fct_relevel(method, "ABLUP", "GBLUP", "BayesLasso", "GOBLUP", "FSBLUP")
+        method = fct_relevel(method, "ABLUP", "GBLUP", "BayesianLasso", "GOBLUP", "FSBLUP")
     )
 
 p2=times_result %>% 
@@ -70,10 +70,9 @@ p2=times_result %>%
         title = element_text(size = 16, face = "bold", family = "Arial"),
         strip.background = element_rect(fill = alpha("grey80", 0.85)),
         strip.text = element_text(face = "bold", size = 14, family = "Arial"))
-dev.off()
 
 
-Cairo::CairoPDF("Prediction_Accuracy.pdf", width = 12, height = 8)
+Cairo::CairoPDF("Prediction_Accuracy.pdf", width = 8, height = 7)
 p1/p2 +
     plot_layout(guides = 'collect', axis_title = "collect") & #& theme(plot.margin = margin(0.1, 0.1, 0, 0.1, unit = "cm")) 
     theme(

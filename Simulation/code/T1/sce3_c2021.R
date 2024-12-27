@@ -199,7 +199,7 @@ for (s in 3) {
             data.frame(
                 Scenario = s, 
                 Rep = r,
-                Method = "GOBLUP",
+                method = "GOBLUP",
                 pearson = cor(EBV1sum[1911:2110], tbv[1911:2110], use = "pairwise.complete.obs"),
                 bias = lm(tbv[1911:2110] ~ EBV1sum[1911:2110])$coefficients[2]
             )
